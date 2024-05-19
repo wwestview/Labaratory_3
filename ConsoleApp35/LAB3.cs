@@ -2,20 +2,21 @@
 using System.Diagnostics;
 namespace Labaratory_3
 {
-    class Program
+    public class Program
     {
         public static void Main()
         {
-            // DeleteElementsTK.Main_1();
-            // Console.WriteLine("---------------------");
-            // JagArrayVol_1.Main_2();
-            // Console.WriteLine("---------------------");
-            // JagArrayVol_2.Main_3();
-            // Console.WriteLine("---------------------");
-            JagArrayDel.Main_4();
-            Console.WriteLine("---------------------");
+          Variant4_1.Main_1();
+          Console.WriteLine("---------------------");
+          Variant4_2.Main_2();
+          Console.WriteLine("---------------------");
+          Variant4_2_2.Main_3();
+          Console.WriteLine("---------------------");
+          Variant4_3.Main_4();
+          Console.WriteLine("---------------------");
+          Programm.Main_5();
         }
-        internal class DeleteElementsTK
+        public class Variant4_1
         {
             public static void Main_1()
             {
@@ -52,7 +53,7 @@ namespace Labaratory_3
                 Console.WriteLine();
             }
 
-            static int[] DeleteElements(ref int[] array, int k, int t)  // t = number of elements 
+            public static int[] DeleteElements(ref int[] array, int k, int t)  // t = number of elements 
             {                                                         // k = started from the k-th element
                                                                       // size new array (if we have lenght of array which equals 10, we minus number of elements 
                 int newSize = array.Length - t; // 10-3 = 7;
@@ -73,7 +74,7 @@ namespace Labaratory_3
                 return newArray;
             }
         }
-        internal class JagArrayVol_1
+        public class Variant4_2
         {
             static int GetSumOfDigits(int num)
             {
@@ -135,7 +136,7 @@ namespace Labaratory_3
             }
 
         }
-        internal class JagArrayVol_2
+        internal class Variant4_2_2
         {
             static int GetSumOfDigits(int num)
             {
@@ -215,7 +216,7 @@ namespace Labaratory_3
 
             }
         }
-        internal class JagArrayDel
+        internal class Variant4_3
         {
             public static void Main_4()
             {
@@ -245,7 +246,7 @@ namespace Labaratory_3
             int[][] jagArr = new int[rows][];
             for (int i = 0; i < rows; i++)
             {
-                Console.WriteLine($"Enter count of elements for row from {i} to ... : ");
+                Console.WriteLine($"Enter count of elements for row from {i} to ... ");
                 string[] input = Console.ReadLine().Split(' ');
                 jagArr[i] = new int[input.Length];
                 for (int j = 0; j < jagArr[i].Length; j++)
@@ -268,7 +269,7 @@ namespace Labaratory_3
             int remove = Remove(k1, k2);
             int[][] newArr = new int[jagArr.Length - remove][];
             int newIndex = 0;
-            for (int i = 0; i < jagArr.Length; i++)
+            for (int i = 1; i < jagArr.Length; i++)
             {
                 if (i < k1 || i > k2)
                 {
@@ -285,8 +286,88 @@ namespace Labaratory_3
         {
             return k2 - k1 + 1;
         }
+    }
+    class Programm
+    {
+        static void PrintListOfLists(List<List<int>> listOfLists)
+        {
+            foreach (var list in listOfLists)
+            {
+                foreach (var num in list)
+                    Console.Write(num + " ");
+                Console.WriteLine();
+            }
+        }
+        static void FillMatrixListManual(List<List<int>> list, int rows, int cols)
+        {
+            for (int i = 0; i < rows; i++)
+            {
+                string[] tmp = Console.ReadLine().Trim().Split();
+                var tmpList = new List<int>();
+                for (int j = 0; j < cols; j++)
+                    tmpList.Add(int.Parse(tmp[j]));
+                list.Add(tmpList);
+            }
+        }
+        static void FillMatrixListRandomly(List<List<int>> list, int rows, int cols)
+        {
+            Random rand = new Random();
+            for (int i = 0; i < rows; i++)
+            {
+                List<int> tmp = new List<int>();
+                for (int j = 0; j < cols; j++)
+                    tmp.Add(rand.Next(0, 10));
+                list.Add(tmp);
+            }
+        }
 
+        static void FillListOfListsRandomly(List<List<int>> q, List<int> z)
+        {
+            for (int i = 0; i < z.Count; i++)
+            {
+                Random rand = new Random();
+                List<int> tmp = new List<int>();
+                for (int j = 0; j < z[i]; j++)
+                    tmp.Add(rand.Next(0, 10));
+                q.Add(tmp);
+            }
+        }
+        public static void Main_5()
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.WriteLine("Size of matrix: ");
+            int[] size = Array.ConvertAll(Console.ReadLine().Split(), int.Parse);
+            var p = new List<List<int>>();
+            var z = new List<int>();
+            int rows = size[0];
+            int cols = size[1];
+            Console.WriteLine("0 - manual, other - random");
+            int choice = int.Parse(Console.ReadLine());
+            if (choice == 0) FillMatrixListManual(p, rows, cols);
+            else FillMatrixListRandomly(p, rows, cols);
 
+            Console.WriteLine("Introduced matrix: ");
+            PrintListOfLists(p);
+
+            foreach (var list in p)
+            {
+                int zeroIdx = list.LastIndexOf(0);
+                if (zeroIdx == -1) z.Add(list.Count);
+                else z.Add(zeroIdx + 1);
+            }
+            Console.WriteLine("\nArray Z: ");
+            foreach (var item in z) Console.Write(item + " ");
+
+            Console.WriteLine("\nArray Q: ");
+            var q = new List<List<int>>();
+
+            FillListOfListsRandomly(q, z);
+
+            foreach (var list in q)
+                list.Sort((a, b) => b.CompareTo(a));
+
+            PrintListOfLists(q);
+        }
     }
 }
 
